@@ -1,0 +1,45 @@
+@startuml
+left to right direction
+skin rose
+
+entity Inventario{
+    lista de instrumentos
+}
+entity Instrumento{
+    {static} codigo unico
+    precio
+    sotck
+}
+entity InstrumentoDeCuerda{
+    nombre del instrumento
+    tipo de cuerda
+    numero de cuerda
+    material de construccion
+    tipo
+}
+entity InstrumentoDePercusion{
+    nombre del instrumento
+    tipo de percusion
+    material de construccion
+    tipo
+}
+entity InstrumentoDeViento{
+    nombre del instrumento
+    material de construccion
+}
+entity InstrumentoVendido{
+    nombre del instrumento
+    {static} codigo unico
+}
+entity BoletaVenta{
+    nombre del instrumento
+    precio
+}
+InstrumentoVendido"1..*" -- "1"Inventario: Vende <
+InstrumentoVendido"1" - "1"BoletaVenta: Genera >
+Inventario"1" - "0..*"Instrumento: Tiene >
+Instrumento"1" -- "1"InstrumentoDeCuerda: Se clasifica en >
+Instrumento"1" -- "1"InstrumentoDePercusion: Se clasifica en >
+Instrumento"1" -- "1"InstrumentoDeViento: Se clasifica en >
+
+@enduml

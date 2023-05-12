@@ -1,0 +1,68 @@
+@startuml
+set separator none
+!pragma useIntermediatePackages false
+skin rose
+package cl.ucn.disc.pa.beattherhythm{
+    package model{
+        class ListaInstrumento{
+            -cantidadActual: int
+            -cantidadMaxima: int
+            -arregloInstrumento: Instrumento[]
+            +ListaInstrumento(cantidadMaxima: int)
+            +getCantidadActual()
+            +getCantidadMaxima()
+            +agregar(instrumento: Instrumento): void
+            getInstrumento(posicion: int): Instrumento
+        }
+        class InstrumentoCuerda{
+            -tipoDeCuerda: String
+            -numeroDeCuerda: int
+            -tipo: String
+            +InstrumentoCuerda(nombreInstrumento: String, precio: int, stock: int, tipoDeCuerda: String, numeroDeCuerda: int, tipo: String, materialDeConstruccion: String)
+            +getTipoDeCuerda():String
+            +getNumeroDeCuerda():Int
+            +getTipo(): String
+        }
+        class InstrumentoPercusion{
+            -tipoDePercusion: String
+            -tipo: String
+            -altura: double
+            +InstrumentoPercusion(nombreInstrumento: String, precio: int, stock: int, tipoDePercusion: String, tipo: String, materialDeConstruccion: String, altura: double)
+            +getTipoDePercusion(): String
+            +getTipo(): String
+            +getAltura(): double
+        }
+        class InstrumentoViento{
+            -materialDeConstruccion: String
+            +InstrumentoViento(nombreInstrumento: String, precio: int, stock: int, materialDeConstruccion: String)
+        }
+        interface Instrumentos <<Interface>>{
+            -nombreInstrumento: String
+            -materialDeConstruccion: String
+            -codigo: String
+            -stock: int
+            -precio: int
+            +getMaterialDeConstruccion()
+            +getCodigo()
+            +getPrecio()
+            +getStock()
+        }
+    }
+    package services{
+        interface Sistema <<Interface>>{
+            +cargarInformacion(): void
+        }
+        class SistemaImpl{
+        }
+    }
+}
+SistemaImpl *-> ListaInstrumento
+ListaInstrumento "1..*"--|>"1" InstrumentoCuerda
+ListaInstrumento "1..*"--|>"1" InstrumentoPercusion
+ListaInstrumento "1..*"--|>"1" InstrumentoViento
+InstrumentoPercusion <|.. Instrumentos
+InstrumentoCuerda <|.. Instrumentos
+InstrumentoViento <|.. Instrumentos
+
+SistemaImpl <|.. Sistema
+@enduml
