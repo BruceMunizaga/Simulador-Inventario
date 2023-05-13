@@ -4,6 +4,19 @@ set separator none
 skin rose
 package cl.ucn.disc.pa.beattherhythm{
     package model{
+        class Instrumento{
+        - nombreInstrumento: String
+        - precio: int
+        - stock: int
+        - materialDeConstruccion: String
+        - {static}codigo: String
+        + Instrumento(nombreInstrumento: String, precio: int, stock: int, materialDeConstruccion:  String)
+        + getMaterialDeConstruccion(codigo: String)
+        + getPrecio(codigo: String)
+        + getStock(nombreInstrumento: String);
+        + getCodigo();
+
+        }
         class ListaInstrumento{
             -cantidadActual: int
             -cantidadMaxima: int
@@ -33,15 +46,9 @@ package cl.ucn.disc.pa.beattherhythm{
             +getAltura(): double
         }
         class InstrumentoViento{
-            -materialDeConstruccion: String
             +InstrumentoViento(nombreInstrumento: String, precio: int, stock: int, materialDeConstruccion: String)
         }
         interface Instrumentos <<Interface>>{
-            -nombreInstrumento: String
-            -materialDeConstruccion: String
-            -codigo: String
-            -stock: int
-            -precio: int
             +getMaterialDeConstruccion()
             +getCodigo()
             +getPrecio()
@@ -60,9 +67,11 @@ SistemaImpl *-> ListaInstrumento
 ListaInstrumento "1..*"--|>"1" InstrumentoCuerda
 ListaInstrumento "1..*"--|>"1" InstrumentoPercusion
 ListaInstrumento "1..*"--|>"1" InstrumentoViento
-InstrumentoPercusion <|.. Instrumentos
-InstrumentoCuerda <|.. Instrumentos
-InstrumentoViento <|.. Instrumentos
+Instrumento <|.. Instrumentos
+InstrumentoCuerda --|> Instrumento
+InstrumentoPercusion --|> Instrumento
+InstrumentoViento   --|> Instrumento
+
 
 SistemaImpl <|.. Sistema
 @enduml
