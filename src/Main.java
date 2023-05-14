@@ -1,3 +1,7 @@
+/**
+ * El Main
+ */
+
 import cl.ucn.disc.pa.beattherhythm.services.Sistema;
 import ucn.StdIn;
 import ucn.StdOut;
@@ -57,7 +61,6 @@ public class Main {
 
     /**
      * metodo para agregar un instrumento
-     *
      * @param sistema a ejecutar
      */
     private static void agregarInstrumento(Sistema sistema) {
@@ -90,10 +93,11 @@ public class Main {
                                 [1] Si
                                 [2] No
                                 """);
+
                         StdOut.print("Coloque su opcion aqui: ");
                         opcion1 = StdIn.readLine();
 
-                        if (!opcion1.equalsIgnoreCase("1") && !opcion1.equalsIgnoreCase("2")){
+                        if (!Objects.equals(opcion1,"1") && !Objects.equals(opcion1,"2")){
                             StdOut.println("Opcion no valida, intente nuevamente");
                         }else{
                             sistema.agregarInstrumento(opcion,opcion1);
@@ -124,13 +128,14 @@ public class Main {
             StdOut.print("Ingrese su opcion aqui: ");
             opcion = StdIn.readLine();
 
-            switch (opcion){
-                case "1" -> sistema.venderInstrumentoCuerda();
-                case "2" -> sistema.venderInstrumentoPercusion();
-                case "3" -> sistema.venderInstrumentoViento();
-                case "5" -> StdOut.println("Volviendo al menú anterior...");
-                default -> StdOut.println("Opcion no valida, intente nuevamente");
-
+            if (!opcion.equals("1") && !opcion.equals("2") && !opcion.equals("3") && !opcion.equals("5")){
+                StdOut.println("Opcion no valida, intente nuevamente");
+            }else{
+                if (opcion.equals("5")){
+                    StdOut.println("Regresando al menu anterior...");
+                }else{
+                    sistema.venderInstrumento(opcion);
+                }
             }
         }
     }
