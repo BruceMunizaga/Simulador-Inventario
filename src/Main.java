@@ -40,7 +40,7 @@ public class Main {
                 case "1" -> verInventario(sistema);
                 case "2" -> agregarInstrumento(sistema);
                 case "3" -> menuVentaInstrumento(sistema);
-                case "4" -> StdOut.println("¡Hasta Pronto!");
+                case "4" -> StdOut.println("¡Hasta Pronto!"); // TODO: implementar metodo para actualizar informacion
                 default -> StdOut.println("Opcion no valida, intente nuevamente");
 
             }
