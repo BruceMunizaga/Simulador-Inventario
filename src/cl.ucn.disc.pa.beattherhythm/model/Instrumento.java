@@ -111,7 +111,6 @@ public class Instrumento {
      */
     public Instrumento(String nombreInstrumento, String materialDeConstruccion, String codigo, int precio, int stock) {
 
-        //TODO: agregar validaciones
         this.nombreInstrumento = nombreInstrumento;
         this.materialDeConstruccion = materialDeConstruccion;
         this.codigo = codigo;

@@ -2,7 +2,7 @@
  * El Main
  */
 
-import cl.ucn.disc.pa.beattherhythm.services.Sistema;
+import cl.ucn.disc.pa.beattherhythm.services.SistemaImpl;
 import ucn.StdIn;
 import ucn.StdOut;
 
@@ -20,7 +20,7 @@ public class Main {
      */
     private static void menuPrincipal() throws IOException {
         StdOut.println();
-        Sistema sistema = new Sistema();
+        SistemaImpl sistemaImpl = new SistemaImpl();
 
         StdOut.println("[*] BIENVENIDO AL INVENTARIO DE BEAT THE RHYTHM[*]");
         String opcion = null;
@@ -37,9 +37,9 @@ public class Main {
             opcion = StdIn.readLine();
 
             switch (opcion){
-                case "1" -> verInventario(sistema);
-                case "2" -> agregarInstrumento(sistema);
-                case "3" -> menuVentaInstrumento(sistema);
+                case "1" -> verInventario(sistemaImpl);
+                case "2" -> agregarInstrumento(sistemaImpl);
+                case "3" -> menuVentaInstrumento(sistemaImpl);
                 case "4" -> StdOut.println("¡Hasta Pronto!"); // TODO: implementar metodo para actualizar informacion
                 default -> StdOut.println("Opcion no valida, intente nuevamente");
 
@@ -50,20 +50,20 @@ public class Main {
     /**
      * metodo para ver el inventario que se tiene actualmente
      *
-     * @param sistema del sistema
+     * @param sistemaImpl del sistema
      * @throws IOException en caso de que no hayan datos
      */
-    private static void verInventario(Sistema sistema) throws IOException {
+    private static void verInventario(SistemaImpl sistemaImpl) throws IOException {
         StdOut.println("Usted esta viendo el inventario que hay actualmente:");
 
-        sistema.desplegarInformacion();
+        sistemaImpl.desplegarInformacion();
     }
 
     /**
      * metodo para agregar un instrumento
-     * @param sistema a ejecutar
+     * @param sistemaImpl a ejecutar
      */
-    private static void agregarInstrumento(Sistema sistema) {
+    private static void agregarInstrumento(SistemaImpl sistemaImpl) {
         String opcion = null;
         while (!Objects.equals(opcion,"5")){
             StdOut.println("""
@@ -100,7 +100,7 @@ public class Main {
                         if (!Objects.equals(opcion1,"1") && !Objects.equals(opcion1,"2")){
                             StdOut.println("Opcion no valida, intente nuevamente");
                         }else{
-                            sistema.agregarInstrumento(opcion,opcion1);
+                            sistemaImpl.agregarInstrumento(opcion,opcion1);
                         }
                     }
                 }
@@ -110,10 +110,10 @@ public class Main {
 
     /**
      * menu para escoger que tipo de instrumento vender
-     * @param sistema a ejecutar
+     * @param sistemaImpl a ejecutar
      * @throws IOException en caso de error
      */
-    private static void menuVentaInstrumento(Sistema sistema) throws IOException {
+    private static void menuVentaInstrumento(SistemaImpl sistemaImpl) throws IOException {
         String opcion = null;
         while (!Objects.equals(opcion,"5")){
             StdOut.println("""
@@ -134,7 +134,7 @@ public class Main {
                 if (opcion.equals("5")){
                     StdOut.println("Regresando al menu anterior...");
                 }else{
-                    sistema.venderInstrumento(opcion);
+                    sistemaImpl.venderInstrumento(opcion);
                 }
             }
         }

@@ -49,6 +49,12 @@ package cl.ucn.disc.pa.beattherhythm{
     package services{
         interface Sistema <<Interface>>{
             +cargarInformacion(): void
+            +desplegarInformacion(): void
+            +venderInstrumento(): void
+            +agregarInstrumento(): void
+            +buscarInstrumentoCuerda(codigo: String): Instrumento
+            +buscarInstrumentoPercusion(codigo: String): Instrumento
+            +buscarInstrumentoViento(codigo: String): Instrumento
         }
         class SistemaImpl{
         }
