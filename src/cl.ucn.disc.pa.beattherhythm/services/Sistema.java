@@ -14,16 +14,12 @@ public interface Sistema {
      */
     void cargarInformacion() throws IOException;
 
-    /**
-     *  metodo que guardara los cambios ejecutados
-     * @throws IOException en caso de un error
-     */
-    void guardarInformacion() throws IOException;
+
 
     /**
      * metodo que desplegara la informacion del .txt en pantalla
      */
-    void desplegarInformacion();
+    void desplegarInformacion() throws IOException;
 
     /**
      * metodo para vender un instrumento de cuerda en stock

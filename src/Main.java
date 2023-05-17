@@ -38,14 +38,13 @@ public class Main {
                 case "1" -> verInventario(sistemaImpl);
                 case "2" -> agregarInstrumento(sistemaImpl);
                 case "3" -> menuVentaInstrumento(sistemaImpl);
-                case "4" -> actualizarInventario(sistemaImpl);
+                case "4" -> actualizarInventario();
                 default -> StdOut.println("Opcion no valida, intente nuevamente");
 
             }
         }
     }
-    private static void actualizarInventario(SistemaImpl sistemaImpl) throws IOException {
-        sistemaImpl.guardarInformacion();
+    private static void actualizarInventario() throws IOException {
         StdOut.println("¡Hasta pronto!");
     }
 

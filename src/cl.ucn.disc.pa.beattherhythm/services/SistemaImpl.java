@@ -7,10 +7,8 @@ import edu.princeton.cs.stdlib.StdIn;
 import edu.princeton.cs.stdlib.StdOut;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.Objects;
 
 /**
@@ -34,6 +32,9 @@ public final class SistemaImpl implements Sistema {
     private InstrumentoCuerda instrumentoCuerda;
     private InstrumentoPercusion instrumentoPercusion;
     private InstrumentoViento instrumentoViento;
+    private BufferedReader lector;
+    private String linea;
+    private String partes[];
 
     public SistemaImpl() throws IOException{
 
@@ -52,95 +53,94 @@ public final class SistemaImpl implements Sistema {
             // creo un instrumento de viento
             this.instrumentosViento = Utils.append(this.instrumentosViento, new InstrumentoViento("trompeta","metal","122",5000,23));
 
-        } finally {
-            // guardo la informacion.
-            this.guardarInformacion();
+
         }
 
+    }
+
+    public void imprimirLinea(){
+        for (int i = 0; i < partes.length; i++){
+            StdOut.print(partes[i] + " | ");
+
+        }
     }
 
     @Override
     public void cargarInformacion() throws IOException {
-        // trato de leer los socios y los libros desde el archivo.
-        this.instrumentosCuerda = GSON.fromJson(new FileReader("instrumentosCuerda.json"), InstrumentoCuerda[].class);
-        this.instrumentosPercusion = GSON.fromJson(new FileReader("instrumentosPercusion.json"), InstrumentoPercusion[].class);
-        this.instrumentosViento = GSON.fromJson(new FileReader("instrumentosViento.json"), InstrumentoViento[].class);
+        // Archivo Instrumentos de cuerda.
+        try {
+            StdOut.println("Estos son los instrumentos de cuerda disponibles:");
+            StdOut.println();
+            StdOut.println("Nombre|TipoCuerda|N°Cuerda|Material|Tipo|Codigo|Precio|Stock|");
+            StdOut.println();
+            StdOut.println();
+            lector = new BufferedReader(new FileReader("./instrumentosCuerda.csv"));
+            while ((linea = lector.readLine()) != null) {
+                partes = linea.split(",");
+                imprimirLinea();
+                StdOut.println();
+            }
+
+        } catch (Exception e) {
+            StdOut.println("Error al leer archivo");
+
+        }
+
+        // Archivo Instrumentos de Percusion.
+        try {
+            StdOut.println();
+            StdOut.println();
+            StdOut.println("Estos son los instrumentos de percusion disponibles");
+            StdOut.println();
+            StdOut.println("Nombre|TipoPercusion|Material|Altura|Codigo|Precio|Stock|");
+            StdOut.println();
+            StdOut.println();
+            lector = new BufferedReader(new FileReader("./instrumentosPercusion.csv"));
+            while ((linea = lector.readLine()) != null) {
+                partes = linea.split(",");
+                imprimirLinea();
+                StdOut.println();
+            }
+
+        } catch (Exception e) {
+            StdOut.println("Error al leer archivo");
+
+        }
+        // Archivo Instrumentos de Viento.
+        try {
+            StdOut.println();
+            StdOut.println();
+            StdOut.print("Estos son los instrumentos de viento disponibles");
+            StdOut.println();
+            StdOut.println("Nombre|Material|Codigo|Precio|Stock|");;
+            StdOut.println();
+            StdOut.println();
+            lector = new BufferedReader(new FileReader("./instrumentosViento.csv"));
+            while ((linea = lector.readLine()) != null) {
+                partes = linea.split(",");
+
+                imprimirLinea();
+                StdOut.println();
+            }
+        } catch (Exception e) {
+            StdOut.println("Error al leer archivo");
+        }
     }
+
+
+
+
 
     @Override
-    public void guardarInformacion() throws IOException {
-
-        // guardo los Instrumentos segun su tipo: cuerda - percusion - viento.
-        try (FileWriter writer = new FileWriter("instrumentosCuerda.json")) {
-            GSON.toJson(this.instrumentosCuerda, writer);
-        }
-
-        try (FileWriter writer = new FileWriter("instrumentosPercusion.json")) {
-            GSON.toJson(this.instrumentosPercusion, writer);
-        }
-
-        try (FileWriter writer = new FileWriter("instrumentosViento.json")) {
-            GSON.toJson(this.instrumentosViento, writer);
-        }
+    public void desplegarInformacion() throws IOException {
 
 
-    }
-    @Override
-    public void desplegarInformacion() {
-
-        StdOut.println("Actualmente se encuentran estos instrumentos de cuerda guardados:");
-        // ciclo para recorrer el arreglo y desplegarlo
-        for (int i = 0; i < instrumentosCuerda.length; i++) {
-            //asigno el instrumento a desplegar
-            instrumentoCuerda = instrumentosCuerda[i];
-            // lo despliego
-            StdOut.println("["+ (i+1)+"]");
-            StdOut.println("Nombre: "+instrumentoCuerda.getNombreInstrumento());
-            StdOut.println("Tipo de cuerdas: "+instrumentoCuerda.getTipoDeCuerda());
-            StdOut.println("Numero de cuerdas: "+instrumentoCuerda.getNumeroDecuerdas());
-            StdOut.println("Material de construccion: "+instrumentoCuerda.getMaterialDeConstruccion());
-            StdOut.println("Tipo: "+instrumentoCuerda.getTipo());
-            StdOut.println("Codigo: "+instrumentoCuerda.getCodigo());
-            StdOut.println("Precio: $"+instrumentoCuerda.getPrecio());
-            StdOut.println("Stock: "+instrumentoCuerda.getStock());
-            StdOut.println();
-        }
+        cargarInformacion();
         StdOut.println();
-
-        StdOut.println("Actualmente se encuentran estos instrumentos de percusion guardados:");
-        // ciclo para recorrer el arreglo y desplegarlo
-        for (int i = 0; i < instrumentosPercusion.length; i++) {
-            //asigno el instrumento a desplegar
-            instrumentoPercusion = instrumentosPercusion[i];
-            // lo despliego
-            StdOut.println("["+ (i+1)+"]");
-            StdOut.println("Nombre: "+instrumentoPercusion.getNombreInstrumento());
-            StdOut.println("Tipo de Percusion: "+instrumentoPercusion.getTipoDePercusion());
-            StdOut.println("Material de construccion: "+instrumentoPercusion.getMaterialDeConstruccion());
-            StdOut.println("Altura: "+instrumentoPercusion.getAltura());
-            StdOut.println("Codigo: "+instrumentoPercusion.getCodigo());
-            StdOut.println("Precio: $"+instrumentoPercusion.getPrecio());
-            StdOut.println("Stock: "+instrumentoPercusion.getStock());
-            StdOut.println();
         }
-        StdOut.println();
 
-        StdOut.println("Actualmente se encuentran estos instrumentos de viento guardados:");
-        // ciclo para recorrer el arreglo y desplegarlo
-        for (int i = 0; i < instrumentosViento.length; i++) {
-            //asigno el instrumento a desplegar
-            instrumentoViento = instrumentosViento[i];
-            // lo despliego
-            StdOut.println("["+ (i+1)+"]");
-            StdOut.println("Nombre: "+instrumentoViento.getNombreInstrumento());
-            StdOut.println("Material de construccion: "+instrumentoViento.getMaterialDeConstruccion());
-            StdOut.println("Codigo: "+instrumentoViento.getCodigo());
-            StdOut.println("Precio: $"+instrumentoViento.getPrecio());
-            StdOut.println("Stock: "+instrumentoViento.getStock());
-            StdOut.println();
-        }
-        StdOut.println();
-    }
+
+
 
     @Override
     public void venderInstrumento(final String opcion) {
@@ -480,7 +480,27 @@ public final class SistemaImpl implements Sistema {
                     this.instrumentosCuerda = Utils.append(this.instrumentosCuerda,new InstrumentoCuerda
                             (nombreInstrumento,tipoDeCuerda,numeroDeCuerda,materialDeConstruccion,tipo,codigoInstrumento,precio,stock));
 
-                    StdOut.println("Instrumento agregado al inventario");
+                    try {
+                        File f = new File("./instrumentosCuerda.csv");
+                        FileWriter fw = new FileWriter(f, true);
+                        BufferedWriter bw = new BufferedWriter(fw);
+
+                        for(InstrumentoCuerda instrumentoCuerda : instrumentosCuerda){
+                            String dataCuerda = instrumentoCuerda.getNombreInstrumento() + ", " + instrumentoCuerda.getTipoDeCuerda() + ", " +
+                                    instrumentoCuerda.getNumeroDecuerdas() + ", " +  instrumentoCuerda.getMaterialDeConstruccion() + ", " +
+                                    instrumentoCuerda.getTipo() + ", " + instrumentoCuerda.getCodigo() +", " + instrumentoCuerda.getPrecio() + ", " +
+                                    instrumentoCuerda.getStock();
+                            bw.write(dataCuerda + "\n");
+                        }
+                        bw.close();
+
+                    }catch(Exception e){
+                        StdOut.println("Error al inscribir el archivo");
+                    }
+
+
+
+
                 }
             }
         }else{
@@ -543,7 +563,7 @@ public final class SistemaImpl implements Sistema {
                                 && !nombreInstrumento.equalsIgnoreCase("Bombo"));
 
                         do {
-                            StdOut.print("Ingrese el tipo de cuerda del instrumento: ");
+                            StdOut.print("Ingrese el tipo de percusion del instrumento: ");
                             tipoDePercusion = StdIn.readLine();
 
                             if (!tipoDePercusion.equalsIgnoreCase("Membranofono")
@@ -595,7 +615,7 @@ public final class SistemaImpl implements Sistema {
                             instrumento1 = this.buscarInstrumentoPercusion(codigoInstrumento);
 
                             if (instrumento1 != null){
-                                StdOut.println("Lo sentimos, el codgio ingresado ya existe.");
+                                StdOut.println("Lo sentimos, el codigo ingresado ya existe.");
                             }
                         }while (instrumento1 != null);
 
@@ -620,6 +640,24 @@ public final class SistemaImpl implements Sistema {
                         }while (stock < 0);
                         this.instrumentosPercusion = Utils.append(this.instrumentosPercusion, new InstrumentoPercusion
                                 (nombreInstrumento,tipoDePercusion,materialDeConstruccion,altura,codigoInstrumento,precio,stock));
+
+                        try {
+                            File f = new File("./instrumentosPercusion.csv");
+                            FileWriter fw = new FileWriter(f, true);
+                            BufferedWriter bw = new BufferedWriter(fw);
+
+                            for(InstrumentoPercusion instrumentoPercusion : instrumentosPercusion){
+                                String dataPercusion = instrumentoPercusion.getNombreInstrumento() + ", " + instrumentoPercusion.getTipoDePercusion() + ", " +
+                                        instrumentoPercusion.getMaterialDeConstruccion() + ", " + instrumentoPercusion.getAltura() + ", "
+                                        + instrumentoPercusion.getCodigo() +", " + instrumentoPercusion.getPrecio() + ", " +
+                                        instrumentoPercusion.getStock();
+                                bw.write(dataPercusion + "\n");
+                            }
+                            bw.close();
+
+                        }catch(Exception e){
+                            StdOut.println("Error al inscribir el archivo");
+                        }
 
                         StdOut.println("Instrumento agregado al inventario");
                     }
@@ -730,6 +768,25 @@ public final class SistemaImpl implements Sistema {
                             }while (stock < 0);
                             this.instrumentosViento = Utils.append(this.instrumentosViento, new InstrumentoViento
                                     (nombreInstrumento,materialDeConstruccion,codigoInstrumento,precio,stock));
+
+                            try {
+                                File f = new File("./instrumentosViento.csv");
+                                FileWriter fw = new FileWriter(f, true);
+                                BufferedWriter bw = new BufferedWriter(fw);
+
+                                for(InstrumentoViento instrumentoViento : instrumentosViento){
+                                    String dataViento = instrumentoViento.getNombreInstrumento() + ", "  +
+                                            instrumentoViento.getMaterialDeConstruccion() + ", "
+                                            + instrumentoViento.getCodigo() +", " + instrumentoViento.getPrecio() + ", " +
+                                            instrumentoViento.getStock();
+                                    bw.write(dataViento + "\n");
+                                }
+                                bw.close();
+
+                            }catch(Exception e){
+                                StdOut.println("Error al inscribir el archivo");
+                            }
+
                             StdOut.println("Instrumento agregado al inventario");
                         }
                     }
