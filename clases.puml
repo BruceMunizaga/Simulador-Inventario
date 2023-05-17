@@ -1,4 +1,5 @@
 @startuml
+left to right direction
 set separator none
 !pragma useIntermediatePackages false
 skin rose
@@ -14,32 +15,41 @@ package cl.ucn.disc.pa.beattherhythm{
             +agregar(instrumento: Instrumento): void
             getInstrumento(posicion: int): Instrumento
         }
-        class Instrumento{
+        abstract class InstrumentoMusical <<abstract>>{
             -nombreInstrumento: String
-            -tipoDeCuerda: String
-            -tipoDePercusion: String
-            -numeroDeCuerdas: int
             -materialDeConstruccion: String
-            -tipo: String
-            -altura: double
             -codigo: String
             -precio: int
             -stock: int
-            +Instrumento(nombreInstrumento: String, tipoDeCuerda: String, numeroDeCuerdas: int, materialDeConstruccion: String, tipo: String, codigo: String, precio: int, stock: int)
-            +Instrumento(nombreInstrumento: String, tipoDePercusion: String, materialDeConstruccion: String, altura: double, codigo: String, precio: int, stock: int)
-            +Instrumento(nombreInstrumento: String, materialDeConstruccion: String, codigo: String, precio: int, stock: int)
             +getNombreInstrumento(): String
-            +getTipoDeCuerd()a: String
-            +getTipoDePercusion(): String
-            +getNumeroDeCuerdas(): int
             +getMaterialDeConstruccion(): String
-            +getTipo(): String
-            +getAltura(): double
             +getCodigo(): String
             +getPrecio(): int
             +getStock(): int
+            +setStock(): int
         }
-
+        class InstrumentoCuerda{
+            -tipoDeCuerda: String
+            -numeroDeCuerdas: int
+            -tipo: String
+            +Instrumento(nombreInstrumento: String, tipoDeCuerda: String, numeroDeCuerdas: int, materialDeConstruccion: String, tipo: String, codigo: String, precio: int, stock: int)
+            +getTipoDeCuerda(): String
+            +getNumeroDeCuerdas(): int
+            +getTipo(): String
+        }
+        InstrumentoMusical <|.. InstrumentoCuerda
+        class InstrumentoPercusion{
+            -tipoDePercusion: String
+            -altura: double
+            +InstrumentoPercusion(nombreInstrumento: String, tipoDePercusion: String, materialDeConstruccion: String, altura: double, codigo: String, precio: int, stock: int)
+            +getTipoDePercusion(): String
+            +getAltura(): double
+        }
+        InstrumentoMusical <|.. InstrumentoPercusion
+        class InstrumentoViento{
+            +InstrumentoViento(nombreInstrumento: String, materialDeConstruccion: String, codigo: String, precio: int, stock: int)
+        }
+        InstrumentoMusical <|.. InstrumentoViento
         class BoletaVenta{
         -nombreInstrumentoVendido: String
         -precio: int
@@ -49,6 +59,7 @@ package cl.ucn.disc.pa.beattherhythm{
     package services{
         interface Sistema <<Interface>>{
             +cargarInformacion(): void
+            +guardarInformacion(): void
             +desplegarInformacion(): void
             +venderInstrumento(): void
             +agregarInstrumento(): void
@@ -60,8 +71,11 @@ package cl.ucn.disc.pa.beattherhythm{
         }
     }
 }
-SistemaImpl *-> ListaInstrumento
-ListaInstrumento "1"--|>"0..*" Instrumento: Contiene
-Instrumento "1"-> "0..*"BoletaVenta: Genera
-SistemaImpl <|.. Sistema
+
+Sistema ..|> SistemaImpl
+ListaInstrumento "1..*" --* "1" BoletaVenta: al vender genera
+InstrumentoCuerda "0..*" --> "1" ListaInstrumento
+InstrumentoPercusion "0..*" --> "1" ListaInstrumento
+InstrumentoViento "0..*" --> "1" ListaInstrumento
+
 @enduml

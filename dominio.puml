@@ -2,6 +2,9 @@
 left to right direction
 skin rose
 
+entity Empresa{
+    nombre de la empresa
+}
 entity Inventario{
     lista de instrumentos
 }
@@ -16,16 +19,20 @@ entity InstrumentoDeCuerda{
     numero de cuerda
     material de construccion
     tipo
+
 }
 entity InstrumentoDePercusion{
     nombre del instrumento
     tipo de percusion
     material de construccion
-    tipo
+    altura
+
+
 }
 entity InstrumentoDeViento{
     nombre del instrumento
     material de construccion
+
 }
 entity InstrumentoVendido{
     nombre del instrumento
@@ -35,6 +42,7 @@ entity BoletaVenta{
     nombre del instrumento
     precio
 }
+Empresa "1" - "1" Inventario: Tiene >
 InstrumentoVendido"1..*" -- "1"Inventario: Vende <
 InstrumentoVendido"1" - "1"BoletaVenta: Genera >
 Inventario"1" - "0..*"Instrumento: Tiene >

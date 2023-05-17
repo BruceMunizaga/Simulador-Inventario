@@ -1,6 +1,6 @@
 package cl.ucn.disc.pa.beattherhythm.model;
 
-public class Instrumento {
+public class InstrumentoCuerda {
     /**
      * El nombre del instrumento
      */
@@ -10,11 +10,6 @@ public class Instrumento {
      * Tipo de percusion del instrumento
      */
     private String tipoDeCuerda;
-
-    /**
-     * Tipo de percusion del instrumento
-     */
-    private String tipoDePercusion;
 
     /**
      * El numero de cuerdas del instrumento
@@ -30,11 +25,6 @@ public class Instrumento {
      * Que tipo de instrumento es
      */
     private String tipo;
-
-    /**
-     * Altura del instrumento (definida, indefinida)
-     */
-    private double altura;
 
     /**
      * El codigo del instrumento
@@ -64,7 +54,7 @@ public class Instrumento {
      * @param precio del instrumento
      * @param stock del instrumento
      */
-    public Instrumento(String nombreInstrumento, String tipoDeCuerda, int numeroDecuerdas, String materialDeConstruccion, String tipo, String codigo, int precio, int stock) {
+    public InstrumentoCuerda(String nombreInstrumento, String tipoDeCuerda, int numeroDecuerdas, String materialDeConstruccion, String tipo, String codigo, int precio, int stock) {
 
         //TODO: agregar validaciones
         this.nombreInstrumento = nombreInstrumento;
@@ -72,47 +62,6 @@ public class Instrumento {
         this.numeroDecuerdas = numeroDecuerdas;
         this.materialDeConstruccion = materialDeConstruccion;
         this.tipo = tipo;
-        this.codigo = codigo;
-        this.precio = precio;
-        this.stock = stock;
-    }
-
-    /**
-     * Constructor del instrumento en caso de ser de tipo percusion
-     *
-     * @param nombreInstrumento del instrumento
-     * @param tipoDePercusion del instrumento
-     * @param materialDeConstruccion del instrumento
-     * @param altura del instrumento
-     * @param codigo del instrumento
-     * @param precio del instrumento
-     * @param stock del instrumento
-     */
-    public Instrumento(String nombreInstrumento, String tipoDePercusion, String materialDeConstruccion, double altura, String codigo, int precio, int stock) {
-
-        //TODO: agregar validaciones
-        this.nombreInstrumento = nombreInstrumento;
-        this.tipoDePercusion = tipoDePercusion;
-        this.materialDeConstruccion = materialDeConstruccion;
-        this.altura = altura;
-        this.codigo = codigo;
-        this.precio = precio;
-        this.stock = stock;
-    }
-
-    /**
-     * Constructor del instrumento en caso de ser de tipo percusion
-     *
-     * @param nombreInstrumento del instrumento
-     * @param materialDeConstruccion del instrumento
-     * @param codigo del instrumento
-     * @param precio del instrumento
-     * @param stock del instrumento
-     */
-    public Instrumento(String nombreInstrumento, String materialDeConstruccion, String codigo, int precio, int stock) {
-
-        this.nombreInstrumento = nombreInstrumento;
-        this.materialDeConstruccion = materialDeConstruccion;
         this.codigo = codigo;
         this.precio = precio;
         this.stock = stock;
@@ -132,14 +81,6 @@ public class Instrumento {
      */
     public String getTipoDeCuerda() {
         return this.tipoDeCuerda;
-    }
-
-    /**
-     *
-     * @return el tipo de percusion en caso de serlo
-     */
-    public String getTipoDePercusion() {
-        return this.tipoDePercusion;
     }
 
     /**
@@ -164,14 +105,6 @@ public class Instrumento {
      */
     public String getTipo() {
         return this.tipo;
-    }
-
-    /**
-     *
-     * @return la altura del instrumento en caso de ser percusion
-     */
-    public double getAltura() {
-        return this.altura;
     }
 
     /**

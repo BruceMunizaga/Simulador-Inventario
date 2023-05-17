@@ -1,14 +1,24 @@
 package cl.ucn.disc.pa.beattherhythm.services;
 
-import cl.ucn.disc.pa.beattherhythm.model.Instrumento;
+import cl.ucn.disc.pa.beattherhythm.model.InstrumentoCuerda;
+import cl.ucn.disc.pa.beattherhythm.model.InstrumentoPercusion;
+import cl.ucn.disc.pa.beattherhythm.model.InstrumentoViento;
+
 import java.io.IOException;
 
 public interface Sistema {
 
     /**
      * metodo que leera el archivo .txt
+     * @throws IOException en caso de un error
      */
     void cargarInformacion() throws IOException;
+
+    /**
+     *  metodo que guardara los cambios ejecutados
+     * @throws IOException en caso de un error
+     */
+    void guardarInformacion() throws IOException;
 
     /**
      * metodo que desplegara la informacion del .txt en pantalla
@@ -33,19 +43,19 @@ public interface Sistema {
      * @param codigo a buscar
      * @return el instrumento
      */
-    Instrumento buscarInstrumentoCuerda(final String codigo);
+    InstrumentoCuerda buscarInstrumentoCuerda(final String codigo);
 
     /**
      * metodo para buscar un instrumento en base a su codigo unico
      * @param codigo a buscar
      * @return el instrumento
      */
-    Instrumento buscarInstrumentoPercusion(final String codigo);
+    InstrumentoPercusion buscarInstrumentoPercusion(final String codigo);
 
     /**
      * metodo para buscar un instrumento en base a su codigo unico
      * @param codigo a buscar
      * @return el instrumento
      */
-    Instrumento buscarInstrumentoViento(final String codigo);
+    InstrumentoViento buscarInstrumentoViento(final String codigo);
 }

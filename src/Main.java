@@ -3,9 +3,8 @@
  */
 
 import cl.ucn.disc.pa.beattherhythm.services.SistemaImpl;
-import ucn.StdIn;
-import ucn.StdOut;
-
+import edu.princeton.cs.stdlib.StdIn;
+import edu.princeton.cs.stdlib.StdOut;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -22,29 +21,32 @@ public class Main {
         StdOut.println();
         SistemaImpl sistemaImpl = new SistemaImpl();
 
-        StdOut.println("[*] BIENVENIDO AL INVENTARIO DE BEAT THE RHYTHM[*]");
+        StdOut.println("[*] BIENVENIDO AL INVENTARIO DE BEAT THE RHYTHM [*]");
         String opcion = null;
         while (!Objects.equals(opcion,"4")){
             StdOut.println("""
-                    Selecicione una opcion:
                     
                     [1] Ver inventario.
                     [2] Agregar instrumento al inventario.
                     [3] Vender Instrumento.
                     [4] Guardar cambios y cerrar el programa.
                     """);
-            StdOut.print("Inserte su opcion aqui:");
+            StdOut.print("Inserte su opcion aqui: ");
             opcion = StdIn.readLine();
 
             switch (opcion){
                 case "1" -> verInventario(sistemaImpl);
                 case "2" -> agregarInstrumento(sistemaImpl);
                 case "3" -> menuVentaInstrumento(sistemaImpl);
-                case "4" -> StdOut.println("¡Hasta Pronto!"); // TODO: implementar metodo para actualizar informacion
+                case "4" -> actualizarInventario(sistemaImpl);
                 default -> StdOut.println("Opcion no valida, intente nuevamente");
 
             }
         }
+    }
+    private static void actualizarInventario(SistemaImpl sistemaImpl) throws IOException {
+        sistemaImpl.guardarInformacion();
+        StdOut.println("¡Hasta pronto!");
     }
 
     /**
@@ -78,7 +80,8 @@ public class Main {
             StdOut.print("Ingrese su opcion aqui: ");
             opcion = StdIn.readLine();
 
-            if (!opcion.equals("1") && !opcion.equals("2") && !opcion.equals("3") && !opcion.equals("5")){
+            if (!Objects.equals(opcion,"1")&& !Objects.equals(opcion,"2") && !Objects.equals(opcion,"3")
+                    && !Objects.equals(opcion,"5")){
                 StdOut.println("Opcion no valida, intente nuevamente");
             }else{
                 if (opcion.equals("5")){
