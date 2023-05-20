@@ -11,7 +11,7 @@ entity Inventario{
 entity Instrumento{
     {static} codigo unico
     precio
-    sotck
+    stock
 }
 entity InstrumentoDeCuerda{
     nombre del instrumento

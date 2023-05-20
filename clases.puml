@@ -15,18 +15,7 @@ package cl.ucn.disc.pa.beattherhythm{
             +agregar(instrumento: Instrumento): void
             getInstrumento(posicion: int): Instrumento
         }
-        abstract class InstrumentoMusical <<abstract>>{
-            -nombreInstrumento: String
-            -materialDeConstruccion: String
-            -codigo: String
-            -precio: int
-            -stock: int
-            +getNombreInstrumento(): String
-            +getMaterialDeConstruccion(): String
-            +getCodigo(): String
-            +getPrecio(): int
-            +getStock(): int
-            +setStock(): int
+
         }
         class InstrumentoCuerda{
             -tipoDeCuerda: String
@@ -37,7 +26,7 @@ package cl.ucn.disc.pa.beattherhythm{
             +getNumeroDeCuerdas(): int
             +getTipo(): String
         }
-        InstrumentoMusical <|.. InstrumentoCuerda
+
         class InstrumentoPercusion{
             -tipoDePercusion: String
             -altura: double
@@ -45,16 +34,12 @@ package cl.ucn.disc.pa.beattherhythm{
             +getTipoDePercusion(): String
             +getAltura(): double
         }
-        InstrumentoMusical <|.. InstrumentoPercusion
+
         class InstrumentoViento{
             +InstrumentoViento(nombreInstrumento: String, materialDeConstruccion: String, codigo: String, precio: int, stock: int)
         }
-        InstrumentoMusical <|.. InstrumentoViento
-        class BoletaVenta{
-        -nombreInstrumentoVendido: String
-        -precio: int
-        +BoletaVenta(nombreInstrumentoVendido: String, precio: String)
-        }
+
+
     }
     package services{
         interface Sistema <<Interface>>{
@@ -68,15 +53,27 @@ package cl.ucn.disc.pa.beattherhythm{
             +buscarInstrumentoViento(codigo: String): Instrumento
         }
         class SistemaImpl{
+            +SistemaImpl(): void
+            +cargarInformacion(): void
+            +guardarInformacion(): void
+            +desplegarInformacion(): void
+            +venderInstrumento(): void
+            +agregarInstrumento(): void
+            +buscarInstrumentoCuerda(codigo: String): Instrumento
+            +buscarInstrumentoPercusion(codigo: String): Instrumento
+            +buscarInstrumentoViento(codigo: String): Instrumento
+
+
         }
     }
 }
 
 SistemaImpl ..|> Sistema
-ListaInstrumento "1..*" --* "1" BoletaVenta: al vender genera
 InstrumentoCuerda "0..*" --> "1" ListaInstrumento
 InstrumentoPercusion "0..*" --> "1" ListaInstrumento
 InstrumentoViento "0..*" --> "1" ListaInstrumento
-SistemaImpl *-> InstrumentoMusical
+SistemaImpl *-> InstrumentoPercusion
+SistemaImpl *-> InstrumentoCuerda
+SistemaImpl *-> InstrumentoViento
 
 @enduml
