@@ -3,8 +3,9 @@
  */
 
 import cl.ucn.disc.pa.beattherhythm.services.SistemaImpl;
-import edu.princeton.cs.stdlib.StdIn;
-import edu.princeton.cs.stdlib.StdOut;
+import ucn.StdIn;
+import ucn.StdOut;
+
 import java.io.IOException;
 import java.util.Objects;
 
@@ -25,6 +26,7 @@ public class Main {
         String opcion = null;
         while (!Objects.equals(opcion,"4")){
             StdOut.println("""
+                    ---------------------------------------------------------------------------------------------------
                     
                     [1] Ver inventario.
                     [2] Agregar instrumento al inventario.
@@ -33,19 +35,17 @@ public class Main {
                     """);
             StdOut.print("Inserte su opcion aqui: ");
             opcion = StdIn.readLine();
+            StdOut.println("---------------------------------------------------------------------------------------------------");
 
             switch (opcion){
                 case "1" -> verInventario(sistemaImpl);
                 case "2" -> agregarInstrumento(sistemaImpl);
                 case "3" -> menuVentaInstrumento(sistemaImpl);
-                case "4" -> actualizarInventario();
+                case "4" -> actualizarInventario(sistemaImpl);
                 default -> StdOut.println("Opcion no valida, intente nuevamente");
 
             }
         }
-    }
-    private static void actualizarInventario() throws IOException {
-        StdOut.println("¡Hasta pronto!");
     }
 
     /**
@@ -140,5 +140,15 @@ public class Main {
                 }
             }
         }
+    }
+
+    /**
+     * metodo para actualizar la informacion del inventario
+     * @param sistemaImpl a ejecutar
+     * @throws IOException en caso de error
+     */
+    private static void actualizarInventario(SistemaImpl sistemaImpl) throws IOException {
+        sistemaImpl.guardarInformacion();
+        StdOut.println("¡Hasta pronto!");
     }
 }

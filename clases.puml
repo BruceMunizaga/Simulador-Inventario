@@ -72,10 +72,11 @@ package cl.ucn.disc.pa.beattherhythm{
     }
 }
 
-Sistema ..|> SistemaImpl
+SistemaImpl ..|> Sistema
 ListaInstrumento "1..*" --* "1" BoletaVenta: al vender genera
 InstrumentoCuerda "0..*" --> "1" ListaInstrumento
 InstrumentoPercusion "0..*" --> "1" ListaInstrumento
 InstrumentoViento "0..*" --> "1" ListaInstrumento
+SistemaImpl *-> InstrumentoMusical
 
 @enduml

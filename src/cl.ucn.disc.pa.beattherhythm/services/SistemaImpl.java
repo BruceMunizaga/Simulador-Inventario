@@ -3,10 +3,9 @@ package cl.ucn.disc.pa.beattherhythm.services;
 import cl.ucn.disc.pa.beattherhythm.model.InstrumentoCuerda;
 import cl.ucn.disc.pa.beattherhythm.model.InstrumentoPercusion;
 import cl.ucn.disc.pa.beattherhythm.model.InstrumentoViento;
-import edu.princeton.cs.stdlib.StdIn;
-import edu.princeton.cs.stdlib.StdOut;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import ucn.StdIn;
+import ucn.StdOut;
+
 
 import java.io.*;
 import java.util.Objects;
@@ -18,10 +17,6 @@ import java.util.Objects;
  */
 public final class SistemaImpl implements Sistema {
 
-    /**
-     * Procesador de JSON.
-     */
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     // arreglos donde se alojaran los instrumentos dada su clasificacion
     private InstrumentoCuerda[]  instrumentosCuerda = new InstrumentoCuerda[0];
@@ -32,9 +27,7 @@ public final class SistemaImpl implements Sistema {
     private InstrumentoCuerda instrumentoCuerda;
     private InstrumentoPercusion instrumentoPercusion;
     private InstrumentoViento instrumentoViento;
-    private BufferedReader lector;
-    private String linea;
-    private String partes[];
+
 
     public SistemaImpl() throws IOException{
 
@@ -58,89 +51,116 @@ public final class SistemaImpl implements Sistema {
 
     }
 
-    public void imprimirLinea(){
-        for (int i = 0; i < partes.length; i++){
-            StdOut.print(partes[i] + " | ");
-
-        }
-    }
-
     @Override
     public void cargarInformacion() throws IOException {
-        // Archivo Instrumentos de cuerda.
-        try {
-            StdOut.println("Estos son los instrumentos de cuerda disponibles:");
-            StdOut.println();
-            StdOut.println("Nombre|TipoCuerda|N°Cuerda|Material|Tipo|Codigo|Precio|Stock|");
-            StdOut.println();
-            StdOut.println();
-            lector = new BufferedReader(new FileReader("./instrumentosCuerda.csv"));
-            while ((linea = lector.readLine()) != null) {
-                partes = linea.split(",");
-                imprimirLinea();
-                StdOut.println();
+        String archivoCsv = "Inventario.csv"; // Ruta al archivo CSV
+        String linea;
+        String delimitador = ","; // Delimitador del CSV
+
+        try (BufferedReader br = new BufferedReader(new FileReader(archivoCsv))) {
+            while ((linea = br.readLine()) != null) {
+                String[] instrumento = linea.split(delimitador);
+                String nombreInstrumento = instrumento[0];
+                if (nombreInstrumento.equalsIgnoreCase("Guitarra") ||
+                        nombreInstrumento.equalsIgnoreCase("Bajo") ||
+                        nombreInstrumento.equalsIgnoreCase("Violin") ||
+                        nombreInstrumento.equalsIgnoreCase("Arpa")){
+                    String tipoDeCuerda = instrumento[1];
+                    String numeroDeCuerdas = instrumento[2];
+                    String materialDeConstruccion = instrumento[3];
+                    String tipo = instrumento[4];
+                    String codigo = instrumento[5];
+                    String precio = instrumento[6];
+                    String stock = instrumento[7];
+
+                    this.instrumentosCuerda = Utils.append(this.instrumentosCuerda, new InstrumentoCuerda(nombreInstrumento,tipoDeCuerda,Integer.parseInt(numeroDeCuerdas),materialDeConstruccion,tipo,codigo,Integer.parseInt(precio),Integer.parseInt(stock)));
+                }else{
+                    if (nombreInstrumento.equalsIgnoreCase("Bongo") ||
+                            nombreInstrumento.equalsIgnoreCase("Cajon") ||
+                            nombreInstrumento.equalsIgnoreCase("Campanas") ||
+                            nombreInstrumento.equalsIgnoreCase("Tubulares")||
+                            nombreInstrumento.equalsIgnoreCase("Bombo")){
+                        String tipoDePercusion = instrumento[1];
+                        String materialDeConstruccion = instrumento[2];
+                        String strAltura = instrumento[3];
+                        double altura = Double.parseDouble(strAltura);
+                        String codigo = instrumento[4];
+                        String precio = instrumento[5];
+                        String stock = instrumento[6];
+
+                        this.instrumentosPercusion = Utils.append(this.instrumentosPercusion, new InstrumentoPercusion(nombreInstrumento,tipoDePercusion,materialDeConstruccion,altura,codigo,Integer.parseInt(precio),Integer.parseInt(stock)));
+                    }else{
+                        String materialDeConstruccion = instrumento[1];
+                        String codigo = instrumento[2];
+                        String precio = instrumento[3];
+                        String stock = instrumento[4];
+
+                        this.instrumentosViento = Utils.append(this.instrumentosViento, new InstrumentoViento(nombreInstrumento,materialDeConstruccion,codigo,Integer.parseInt(precio),Integer.parseInt(stock)));
+                    }
+                }
+
             }
-
-        } catch (Exception e) {
-            StdOut.println("Error al leer archivo");
-
-        }
-
-        // Archivo Instrumentos de Percusion.
-        try {
-            StdOut.println();
-            StdOut.println();
-            StdOut.println("Estos son los instrumentos de percusion disponibles");
-            StdOut.println();
-            StdOut.println("Nombre|TipoPercusion|Material|Altura|Codigo|Precio|Stock|");
-            StdOut.println();
-            StdOut.println();
-            lector = new BufferedReader(new FileReader("./instrumentosPercusion.csv"));
-            while ((linea = lector.readLine()) != null) {
-                partes = linea.split(",");
-                imprimirLinea();
-                StdOut.println();
-            }
-
-        } catch (Exception e) {
-            StdOut.println("Error al leer archivo");
-
-        }
-        // Archivo Instrumentos de Viento.
-        try {
-            StdOut.println();
-            StdOut.println();
-            StdOut.print("Estos son los instrumentos de viento disponibles");
-            StdOut.println();
-            StdOut.println("Nombre|Material|Codigo|Precio|Stock|");;
-            StdOut.println();
-            StdOut.println();
-            lector = new BufferedReader(new FileReader("./instrumentosViento.csv"));
-            while ((linea = lector.readLine()) != null) {
-                partes = linea.split(",");
-
-                imprimirLinea();
-                StdOut.println();
-            }
-        } catch (Exception e) {
-            StdOut.println("Error al leer archivo");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
-
-
-
-
 
     @Override
     public void desplegarInformacion() throws IOException {
 
-
-        cargarInformacion();
-        StdOut.println();
+        StdOut.println("Actualmente se encuentran estos instrumentos de cuerda guardados:");
+        // ciclo para recorrer el arreglo y desplegarlo
+        for (int i = 0; i < instrumentosCuerda.length; i++) {
+            //asigno el instrumento a desplegar
+            instrumentoCuerda = instrumentosCuerda[i];
+            // lo despliego
+            StdOut.println("["+ (i+1)+"]");
+            StdOut.println("Nombre: "+instrumentoCuerda.getNombreInstrumento());
+            StdOut.println("Tipo de cuerdas: "+instrumentoCuerda.getTipoDeCuerda());
+            StdOut.println("Numero de cuerdas: "+instrumentoCuerda.getNumeroDecuerdas());
+            StdOut.println("Material de construccion: "+instrumentoCuerda.getMaterialDeConstruccion());
+            StdOut.println("Tipo: "+instrumentoCuerda.getTipo());
+            StdOut.println("Codigo: "+instrumentoCuerda.getCodigo());
+            StdOut.println("Precio: $"+instrumentoCuerda.getPrecio());
+            StdOut.println("Stock: "+instrumentoCuerda.getStock());
+            StdOut.println();
         }
+        StdOut.println();
 
+        StdOut.println("Actualmente se encuentran estos instrumentos de percusion guardados:");
+        // ciclo para recorrer el arreglo y desplegarlo
+        for (int i = 0; i < instrumentosPercusion.length; i++) {
+            //asigno el instrumento a desplegar
+            instrumentoPercusion = instrumentosPercusion[i];
+            // lo despliego
+            StdOut.println("["+ (i+1)+"]");
+            StdOut.println("Nombre: "+instrumentoPercusion.getNombreInstrumento());
+            StdOut.println("Tipo de Percusion: "+instrumentoPercusion.getTipoDePercusion());
+            StdOut.println("Material de construccion: "+instrumentoPercusion.getMaterialDeConstruccion());
+            StdOut.println("Altura: "+instrumentoPercusion.getAltura());
+            StdOut.println("Codigo: "+instrumentoPercusion.getCodigo());
+            StdOut.println("Precio: $"+instrumentoPercusion.getPrecio());
+            StdOut.println("Stock: "+instrumentoPercusion.getStock());
+            StdOut.println();
+        }
+        StdOut.println();
 
-
+        StdOut.println("Actualmente se encuentran estos instrumentos de viento guardados:");
+        // ciclo para recorrer el arreglo y desplegarlo
+        for (int i = 0; i < instrumentosViento.length; i++) {
+            //asigno el instrumento a desplegar
+            instrumentoViento = instrumentosViento[i];
+            // lo despliego
+            StdOut.println("["+ (i+1)+"]");
+            StdOut.println("Nombre: "+instrumentoViento.getNombreInstrumento());
+            StdOut.println("Material de construccion: "+instrumentoViento.getMaterialDeConstruccion());
+            StdOut.println("Codigo: "+instrumentoViento.getCodigo());
+            StdOut.println("Precio: $"+instrumentoViento.getPrecio());
+            StdOut.println("Stock: "+instrumentoViento.getStock());
+            StdOut.println();
+        }
+        StdOut.println();
+    }
 
     @Override
     public void venderInstrumento(final String opcion) {
@@ -481,7 +501,7 @@ public final class SistemaImpl implements Sistema {
                             (nombreInstrumento,tipoDeCuerda,numeroDeCuerda,materialDeConstruccion,tipo,codigoInstrumento,precio,stock));
 
                     try {
-                        File f = new File("./instrumentosCuerda.csv");
+                        File f = new File("./Inventario.csv");
                         FileWriter fw = new FileWriter(f, true);
                         BufferedWriter bw = new BufferedWriter(fw);
 
@@ -832,4 +852,101 @@ public final class SistemaImpl implements Sistema {
         return null;
     }
 
+    @Override
+    public void guardarInformacion() {
+        String archivoCsv = "Inventario.csv"; // Ruta al archivo CSV
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(archivoCsv));
+
+            // Sobrescribir la información en el archivo CSV
+            for (int i = 0; i < instrumentosCuerda.length; i++) {
+                //asigno el instrumento a desplegar
+                instrumentoCuerda = instrumentosCuerda[i];
+                String nombreInstrumento = instrumentoCuerda.getNombreInstrumento();
+                String tipoDeCuerda = instrumentoCuerda.getTipoDeCuerda();
+                int numeroDeCuerdas = instrumentoCuerda.getNumeroDecuerdas();
+                String strNumeroDeCuerdas = Integer.toString(numeroDeCuerdas);
+                String materialDeConstruccion = instrumentoCuerda.getMaterialDeConstruccion();
+                String tipo = instrumentoCuerda.getTipo();
+                String codigo = instrumentoCuerda.getCodigo();
+                int precio = instrumentoCuerda.getPrecio();
+                String strPrecio = Integer.toString(precio);
+                int stock = instrumentoCuerda.getStock();
+                String strStock = Integer.toString(stock);
+                writer.write(nombreInstrumento);
+                writer.write(",");
+                writer.write(tipoDeCuerda);
+                writer.write(",");
+                writer.write(strNumeroDeCuerdas);
+                writer.write(",");
+                writer.write(materialDeConstruccion);
+                writer.write(",");
+                writer.write(tipo);
+                writer.write(",");
+                writer.write(codigo);
+                writer.write(",");
+                writer.write(strPrecio);
+                writer.write(",");
+                writer.write(strStock);
+                writer.newLine();
+            }
+
+            for (int i = 0; i < instrumentosPercusion.length; i++) {
+                //asigno el instrumento a desplegar
+                instrumentoPercusion = instrumentosPercusion[i];
+                String nombreInstrumento = instrumentoPercusion.getNombreInstrumento();
+                String tipoDePercusion = instrumentoPercusion.getTipoDePercusion();
+                String materialDeConstruccion = instrumentoPercusion.getMaterialDeConstruccion();
+                double altura = instrumentoPercusion.getAltura();
+                String strAltura = String.valueOf(altura);
+                String codigo = instrumentoPercusion.getCodigo();
+                int precio = instrumentoPercusion.getPrecio();
+                String strPrecio = Integer.toString(precio);
+                int stock = instrumentoPercusion.getStock();
+                String strStock = Integer.toString(stock);
+                writer.write(nombreInstrumento);
+                writer.write(",");
+                writer.write(tipoDePercusion);
+                writer.write(",");
+                writer.write(materialDeConstruccion);
+                writer.write(",");
+                writer.write(strAltura);
+                writer.write(",");
+                writer.write(codigo);
+                writer.write(",");
+                writer.write(strPrecio);
+                writer.write(",");
+                writer.write(strStock);
+                writer.newLine();
+            }
+
+            for (int i = 0; i < instrumentosViento.length; i++) {
+                //asigno el instrumento a desplegar
+                instrumentoViento = instrumentosViento[i];
+                String nombreInstrumento = instrumentoViento.getNombreInstrumento();
+                String materialDeConstruccion = instrumentoViento.getMaterialDeConstruccion();
+                String codigo = instrumentoViento.getCodigo();
+                int precio = instrumentoViento.getPrecio();
+                String strPrecio = Integer.toString(precio);
+                int stock = instrumentoViento.getStock();
+                String strStock = Integer.toString(stock);
+                writer.write(nombreInstrumento);
+                writer.write(",");
+                writer.write(materialDeConstruccion);
+                writer.write(",");
+                writer.write(codigo);
+                writer.write(",");
+                writer.write(strPrecio);
+                writer.write(",");
+                writer.write(strStock);
+                writer.newLine();
+            }
+            writer.close();
+
+            System.out.println("Datos guardados correctamente.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

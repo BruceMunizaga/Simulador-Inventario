@@ -54,4 +54,10 @@ public interface Sistema {
      * @return el instrumento
      */
     InstrumentoViento buscarInstrumentoViento(final String codigo);
+
+    /**
+     *  metodo que guardara los cambios ejecutados
+     * @throws IOException en caso de un error
+     */
+    void guardarInformacion() throws IOException;
 }
