@@ -9,7 +9,8 @@ Debe tener de forma obligatoria las siguientes librerias en su IntelIJ:
 
 ## Archivo CSV
 
-En este codigo se leerá un archivo csv llamado "Inventario.csv" (si desea leer un archivo csv con distinto nombre deberá dirigirse a la clase SistemaImpl, linea 56 y cambiar el nombre de ruta del archivo. También en la misma clase deberá dirigirse a la linea 857 y cambiar la ruta del archivo para actualizar).
+En este codigo se leerá un archivo csv llamado "Inventario.csv".
+> Si desea leer un archivo csv con distinto nombre deberá dirigirse a la clase SistemaImpl, linea 56 y cambiar el nombre de ruta del archivo. También en la misma clase deberá dirigirse a la linea 857 y cambiar la ruta del archivo para actualizar.
 
 
 ## Estructura del archivo CSV
