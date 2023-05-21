@@ -16,11 +16,11 @@ En este codigo se leerá un archivo csv llamado "Inventario.csv".
 ## Estructura del archivo CSV
 
 Este código acepta sola una estructura del archivo para poder ser ejecutada:
-- Si es un instrumento de cuerda, debe cumplir con la siguiente estructura en cada linea: [nombre],[tipo de cuerda],[numero de cuerdas],[material de construcción],[tipo],[código],[precio],[stock]
+- Si es un instrumento de cuerda, debe cumplir con la siguiente estructura en cada linea: [código],[precio],[stock],[nombre],[tipo de cuerda],[numero de cuerdas],[material de construcción],[tipo]
 
-- Si es un instrumento de percusión, debe cumplir con la siguiente estructura en cada linea: [nombre],[tipo de percusión],[material de construcción],[altura (en metros)],[código],[precio],[stock]
+- Si es un instrumento de percusión, debe cumplir con la siguiente estructura en cada linea: [código],[precio],[stock],[nombre],[material de construcción],[tipo de percusión],[altura]
 
-- Si es un instrumento de viento, debe cumplir con la siguiente estructura en cada linea: [nombre],[material de construcción],[código],[precio],[stock]
+- Si es un instrumento de viento, debe cumplir con la siguiente estructura en cada linea: [código],[precio],[stock],[nombre],[material de construcción]
 > Si se ingresa alguno de estos tipos de instrumento en el archivo y no cumple con la estructura antes mencionada, el código no podrá ser ejecutado.
 
 ## Autores del código

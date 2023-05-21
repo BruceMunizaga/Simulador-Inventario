@@ -20,7 +20,7 @@ public class InstrumentoPercusion {
     /**
      * Altura del instrumento (definida, indefinida)
      */
-    private double altura;
+    private String altura;
 
     /**
     * El codigo del instrumento
@@ -48,7 +48,7 @@ public class InstrumentoPercusion {
      * @param precio del instrumento
      * @param stock del instrumento
      */
-    public InstrumentoPercusion(String nombreInstrumento, String tipoDePercusion, String materialDeConstruccion, double altura, String codigo, int precio, int stock) {
+    public InstrumentoPercusion(String nombreInstrumento, String tipoDePercusion, String materialDeConstruccion, String altura, String codigo, int precio, int stock) {
 
         this.nombreInstrumento = nombreInstrumento;
         this.tipoDePercusion = tipoDePercusion;
@@ -72,7 +72,7 @@ public class InstrumentoPercusion {
         return this.materialDeConstruccion;
     }
 
-    public double getAltura() {
+    public String getAltura() {
         return this.altura;
     }
 

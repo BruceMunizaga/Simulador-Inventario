@@ -41,7 +41,7 @@ public final class SistemaImpl implements Sistema {
             this.instrumentosCuerda = Utils.append(this.instrumentosCuerda, new InstrumentoCuerda("Guitarra","Nylon",12,"madera","electrico","123",1000,100));
 
             // creo un instrumento de percusion
-            this.instrumentosPercusion = Utils.append(this.instrumentosPercusion, new InstrumentoPercusion("Cajon","idiofono","madera",5.0,"124",500,12));
+            this.instrumentosPercusion = Utils.append(this.instrumentosPercusion, new InstrumentoPercusion("Cajon","idiofono","madera","Definido","124",500,12));
 
             // creo un instrumento de viento
             this.instrumentosViento = Utils.append(this.instrumentosViento, new InstrumentoViento("trompeta","metal","122",5000,23));
@@ -60,41 +60,34 @@ public final class SistemaImpl implements Sistema {
         try (BufferedReader br = new BufferedReader(new FileReader(archivoCsv))) {
             while ((linea = br.readLine()) != null) {
                 String[] instrumento = linea.split(delimitador);
-                String nombreInstrumento = instrumento[0];
+                String codigo = instrumento[0];
+                String precio = instrumento[1];
+                String stock = instrumento[2];
+                String nombreInstrumento = instrumento[3];
                 if (nombreInstrumento.equalsIgnoreCase("Guitarra") ||
                         nombreInstrumento.equalsIgnoreCase("Bajo") ||
                         nombreInstrumento.equalsIgnoreCase("Violin") ||
                         nombreInstrumento.equalsIgnoreCase("Arpa")){
-                    String tipoDeCuerda = instrumento[1];
-                    String numeroDeCuerdas = instrumento[2];
-                    String materialDeConstruccion = instrumento[3];
-                    String tipo = instrumento[4];
-                    String codigo = instrumento[5];
-                    String precio = instrumento[6];
-                    String stock = instrumento[7];
+                    String tipoDeCuerda = instrumento[4];
+                    String numeroDeCuerdas = instrumento[5];
+                    String materialDeConstruccion = instrumento[6];
+                    String tipo = instrumento[7];
+
 
                     this.instrumentosCuerda = Utils.append(this.instrumentosCuerda, new InstrumentoCuerda(nombreInstrumento,tipoDeCuerda,Integer.parseInt(numeroDeCuerdas),materialDeConstruccion,tipo,codigo,Integer.parseInt(precio),Integer.parseInt(stock)));
                 }else{
                     if (nombreInstrumento.equalsIgnoreCase("Bongo") ||
                             nombreInstrumento.equalsIgnoreCase("Cajon") ||
-                            nombreInstrumento.equalsIgnoreCase("Campanas") ||
-                            nombreInstrumento.equalsIgnoreCase("Tubulares")||
+                            nombreInstrumento.equalsIgnoreCase("Campanas Tubulares")||
                             nombreInstrumento.equalsIgnoreCase("Bombo")){
-                        String tipoDePercusion = instrumento[1];
-                        String materialDeConstruccion = instrumento[2];
-                        String strAltura = instrumento[3];
-                        double altura = Double.parseDouble(strAltura);
-                        String codigo = instrumento[4];
-                        String precio = instrumento[5];
-                        String stock = instrumento[6];
+                        String materialDeConstruccion = instrumento[4];
+                        String tipoDePercusion = instrumento[5];
+                        String altura = instrumento[6];
+
 
                         this.instrumentosPercusion = Utils.append(this.instrumentosPercusion, new InstrumentoPercusion(nombreInstrumento,tipoDePercusion,materialDeConstruccion,altura,codigo,Integer.parseInt(precio),Integer.parseInt(stock)));
                     }else{
-                        String materialDeConstruccion = instrumento[1];
-                        String codigo = instrumento[2];
-                        String precio = instrumento[3];
-                        String stock = instrumento[4];
-
+                        String materialDeConstruccion = instrumento[4];
                         this.instrumentosViento = Utils.append(this.instrumentosViento, new InstrumentoViento(nombreInstrumento,materialDeConstruccion,codigo,Integer.parseInt(precio),Integer.parseInt(stock)));
                     }
                 }
@@ -471,6 +464,8 @@ public final class SistemaImpl implements Sistema {
                         StdOut.print("Ingrese el codigo del instrumento: ");
                         codigoInstrumento = StdIn.readLine();
                         instrumento1 = this.buscarInstrumentoCuerda(codigoInstrumento);
+                        instrumento1 = this.buscarInstrumentoCuerda(codigoInstrumento);
+                        instrumento1 = this.buscarInstrumentoCuerda(codigoInstrumento);
 
                         if (instrumento1 != null){
                             StdOut.println("Lo sentimos, el codgio ingresado ya existe.");
@@ -517,10 +512,6 @@ public final class SistemaImpl implements Sistema {
                     }catch(Exception e){
                         StdOut.println("Error al inscribir el archivo");
                     }
-
-
-
-
                 }
             }
         }else{
@@ -554,7 +545,7 @@ public final class SistemaImpl implements Sistema {
                         String nombreInstrumento;
                         String tipoDePercusion;
                         String materialDeConstruccion;
-                        double altura;
+                        String altura;
                         String codigoInstrumento;
                         int precio;
                         int stock;
@@ -564,22 +555,19 @@ public final class SistemaImpl implements Sistema {
 
                             if (!nombreInstrumento.equalsIgnoreCase("Bongo")
                                     && !nombreInstrumento.equalsIgnoreCase("Cajon")
-                                    && !nombreInstrumento.equalsIgnoreCase("Campanas")
-                                    && !nombreInstrumento.equalsIgnoreCase("Tubulares")
+                                    && !nombreInstrumento.equalsIgnoreCase("Campanas tubulares")
                                     && !nombreInstrumento.equalsIgnoreCase("Bombo")){
                                 StdOut.println("""
                                 Lo sentimos, ese instrumento no esta permitido. Instrumentos permitidos:
                                  -Bongo
                                  -Cajon
-                                 -Campanas
-                                 -Tubulares
+                                 -Campanas tubulares
                                  -Bombo
                             """);
                             }
                         }while (!nombreInstrumento.equalsIgnoreCase("Bongo")
                                 && !nombreInstrumento.equalsIgnoreCase("Cajon")
-                                && !nombreInstrumento.equalsIgnoreCase("Campanas")
-                                && !nombreInstrumento.equalsIgnoreCase("Tubulares")
+                                && !nombreInstrumento.equalsIgnoreCase("Campanas tubulares")
                                 && !nombreInstrumento.equalsIgnoreCase("Bombo"));
 
                         do {
@@ -618,14 +606,25 @@ public final class SistemaImpl implements Sistema {
                                 && !materialDeConstruccion.equalsIgnoreCase("Piel"));
 
                         do {
-                            StdOut.print("Ingrese la altura del instrumento (en metros): ");
-                            altura = StdIn.readDouble();
+                            StdOut.print("Ingrese la altura del instrumento: ");
+                            altura = StdIn.readLine();
 
-                            if ( altura < 0.0){
-                                StdOut.println("Lo sentimos, solo numeros positivos.");
+                            if (!altura.equalsIgnoreCase("Definida")
+                                    && !altura.equalsIgnoreCase("Indefinida")
+                                    && !altura.equalsIgnoreCase("Definido")
+                                    && !altura.equalsIgnoreCase("Indefinido")){
+
+                                StdOut.println("""
+                               Lo sentimos, esa altura no esta permitida. Parametros permitidos:
+                                -Definido/a
+                                -Indefinido/a
+                            """);
 
                             }
-                        }while (altura < 0.0);
+                        }while (!altura.equalsIgnoreCase("Definida")
+                                && !altura.equalsIgnoreCase("Indefinida")
+                                && !altura.equalsIgnoreCase("Definido")
+                                && !altura.equalsIgnoreCase("Indefinido"));
 
                         InstrumentoPercusion instrumento1;
 
@@ -874,6 +873,12 @@ public final class SistemaImpl implements Sistema {
                 String strPrecio = Integer.toString(precio);
                 int stock = instrumentoCuerda.getStock();
                 String strStock = Integer.toString(stock);
+                writer.write(codigo);
+                writer.write(",");
+                writer.write(strPrecio);
+                writer.write(",");
+                writer.write(strStock);
+                writer.write(",");
                 writer.write(nombreInstrumento);
                 writer.write(",");
                 writer.write(tipoDeCuerda);
@@ -883,12 +888,6 @@ public final class SistemaImpl implements Sistema {
                 writer.write(materialDeConstruccion);
                 writer.write(",");
                 writer.write(tipo);
-                writer.write(",");
-                writer.write(codigo);
-                writer.write(",");
-                writer.write(strPrecio);
-                writer.write(",");
-                writer.write(strStock);
                 writer.newLine();
             }
 
@@ -898,26 +897,25 @@ public final class SistemaImpl implements Sistema {
                 String nombreInstrumento = instrumentoPercusion.getNombreInstrumento();
                 String tipoDePercusion = instrumentoPercusion.getTipoDePercusion();
                 String materialDeConstruccion = instrumentoPercusion.getMaterialDeConstruccion();
-                double altura = instrumentoPercusion.getAltura();
-                String strAltura = String.valueOf(altura);
+                String altura = instrumentoPercusion.getAltura();
                 String codigo = instrumentoPercusion.getCodigo();
                 int precio = instrumentoPercusion.getPrecio();
                 String strPrecio = Integer.toString(precio);
                 int stock = instrumentoPercusion.getStock();
                 String strStock = Integer.toString(stock);
-                writer.write(nombreInstrumento);
-                writer.write(",");
-                writer.write(tipoDePercusion);
-                writer.write(",");
-                writer.write(materialDeConstruccion);
-                writer.write(",");
-                writer.write(strAltura);
-                writer.write(",");
                 writer.write(codigo);
                 writer.write(",");
                 writer.write(strPrecio);
                 writer.write(",");
                 writer.write(strStock);
+                writer.write(",");
+                writer.write(nombreInstrumento);
+                writer.write(",");
+                writer.write(materialDeConstruccion);
+                writer.write(",");
+                writer.write(tipoDePercusion);
+                writer.write(",");
+                writer.write(altura);
                 writer.newLine();
             }
 
@@ -931,15 +929,15 @@ public final class SistemaImpl implements Sistema {
                 String strPrecio = Integer.toString(precio);
                 int stock = instrumentoViento.getStock();
                 String strStock = Integer.toString(stock);
-                writer.write(nombreInstrumento);
-                writer.write(",");
-                writer.write(materialDeConstruccion);
-                writer.write(",");
                 writer.write(codigo);
                 writer.write(",");
                 writer.write(strPrecio);
                 writer.write(",");
                 writer.write(strStock);
+                writer.write(",");
+                writer.write(nombreInstrumento);
+                writer.write(",");
+                writer.write(materialDeConstruccion);
                 writer.newLine();
             }
             writer.close();

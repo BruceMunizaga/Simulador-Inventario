@@ -1,4 +1,5 @@
-Guitarra,Nylon,4,Madera,Acustico,123,1000,30
-Guitarra,Acero,6,Madera,Electrico,945,30000,52
-Bongo,Idiofono,Madera,1.4,124,1000,100
-Traversa,Metal,125,500,100
+001,500000,3,guitarra,nylon,6,madera,acustica
+005,850000,7,bajo,acero,4,metal,electrica
+006,550000,2,campanas tubulares,metal,idiofono,indefinida
+009,10000,50,Bombo,metal,Idiofono,Definido
+007,450000,100,saxofon,metal

@@ -16,7 +16,6 @@ package cl.ucn.disc.pa.beattherhythm{
             getInstrumento(posicion: int): Instrumento
         }
 
-        }
         class InstrumentoCuerda{
             -tipoDeCuerda: String
             -numeroDeCuerdas: int
@@ -38,7 +37,6 @@ package cl.ucn.disc.pa.beattherhythm{
         class InstrumentoViento{
             +InstrumentoViento(nombreInstrumento: String, materialDeConstruccion: String, codigo: String, precio: int, stock: int)
         }
-
 
     }
     package services{
